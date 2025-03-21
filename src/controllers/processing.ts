@@ -44,6 +44,9 @@ export class ProcessingController {
     }
 
     async prolongation(req: Request, res: Response) {
+        if (req.body.auth.app !== "PRS") {
+            return res.status(403).json({ message: "Unauthorized source" });
+        }
         const { body: { cid } } = req;
 
         const result = await this.scenarioService.prolongation(cid)

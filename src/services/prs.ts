@@ -1,3 +1,5 @@
+import { generateToken } from "../utils/jwt.js"
+
 const URL = process.env.PRS_URL
 const HEADERS = {
     "Content-Type": "application/json",
@@ -5,9 +7,13 @@ const HEADERS = {
 
 export class PRSService {
     async saveCustomerData({ email, cid, orderId }) {
+        const token = generateToken()
         const response = await fetch(`${URL}/saveCustomerData/${email}`, {
             method: "PUT",
-            headers: HEADERS,
+            headers: {
+                ...HEADERS,
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
               cid: cid,
               order_id: orderId,
@@ -19,9 +25,13 @@ export class PRSService {
     }
 
     async updateLastPaid(orderId: string) {
+        const token = generateToken()
         const response = await fetch(`${URL}/updateLastPaid`, {
             method: "POST",
-            headers: HEADERS,
+            headers: {
+                ...HEADERS,
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
               order_id: orderId,
             }),
@@ -32,9 +42,13 @@ export class PRSService {
     }
 
     async setUnpaid(orderId: string) {
+        const token = generateToken()
         const response = await fetch(`${URL}/setUnpaid`, {
             method: "POST",
-            headers: HEADERS,
+            headers: {
+                ...HEADERS,
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
               order_id: orderId,
             }),
@@ -45,9 +59,13 @@ export class PRSService {
     }
 
     async updateOrderId({ orderId, cid }) {
+        const token = generateToken()
         const response = await fetch(`${URL}/updateOrderId/${cid}`, {
             method: "PUT",
-            headers: HEADERS,
+            headers: {
+                ...HEADERS,
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
               order_id: orderId
             }),
