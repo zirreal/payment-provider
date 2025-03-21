@@ -15,7 +15,7 @@ const HEADERS = {
 const URL = process.env.REVOLUT_API_URL
 
 export class RevolutService {
-    static async createOrder(order: OrderModel): Promise<OrderModel> {
+    async createOrder(order: OrderModel): Promise<OrderModel> {
         const response = await fetch(
             `${URL}/api/orders`,
             {
@@ -33,7 +33,7 @@ export class RevolutService {
         return order;
     }
 
-    static async getSavedPaymentMethod(customer: CustomerModel) {
+    async getSavedPaymentMethod(customer: CustomerModel) {
         const response = await fetch(
             `${URL}/api/1.0/customers/${customer.customerId}/payment-methods?only_merchant=true`,
               {
@@ -50,7 +50,7 @@ export class RevolutService {
         return customer
     }
 
-    static async payOrder(payment: PaymentModel) {
+    async payOrder(payment: PaymentModel) {
         const response = await fetch(
             `${URL}/api/orders/${payment.orderId}/payments`,
             {

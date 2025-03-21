@@ -4,7 +4,7 @@ const HEADERS = {
   }
 
 export class PRSService {
-    static async saveCustomerData({ email, cid, orderId }) {
+    async saveCustomerData({ email, cid, orderId }) {
         const response = await fetch(`${URL}/saveCustomerData/${email}`, {
             method: "PUT",
             headers: HEADERS,
@@ -18,7 +18,7 @@ export class PRSService {
         }
     }
 
-    static async updateLastPaid(orderId: string) {
+    async updateLastPaid(orderId: string) {
         const response = await fetch(`${URL}/updateLastPaid`, {
             method: "POST",
             headers: HEADERS,
@@ -31,7 +31,7 @@ export class PRSService {
         }
     }
 
-    static async setUnpaid(orderId: string) {
+    async setUnpaid(orderId: string) {
         const response = await fetch(`${URL}/setUnpaid`, {
             method: "POST",
             headers: HEADERS,
@@ -44,7 +44,7 @@ export class PRSService {
         }
     }
 
-    static async updateOrderId({ orderId, cid }) {
+    async updateOrderId({ orderId, cid }) {
         const response = await fetch(`${URL}/updateOrderId/${cid}`, {
             method: "PUT",
             headers: HEADERS,
