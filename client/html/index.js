@@ -1,16 +1,34 @@
 import RevolutCheckout from "https://unpkg.com/@revolut/checkout/esm";
 
+// import RevolutCheckout from '@revolut/checkout'
+
 import {
-  staticProduct,
   addNotification,
   addModalNotification,
 } from "./utils.js";
 
+import {
+  AMOUNT,
+  CURRENCY,
+  NAME,
+  JWT_PAYLOAD
+} from "../../src/constants.js";
+
+
+
 document.addEventListener("DOMContentLoaded", async () => {
-  const { revolutPublicKey } = await fetch("/paymentProvider/config").then((r) => r.json());
+  // adding data to layout
+  const price = document.querySelector('.price')
+  const product = document.querySelector('#product_name');
+
+  price.innerText = "€" + AMOUNT;
+  product.innerText = NAME;
+
+  const revolutPublicKey = REVOLUT_API_PUBLIC_KEY;
   const urlParams = new URLSearchParams(window.location.search);
   const email = urlParams.get("email") || "test@example.com";
   console.log("Email from URL:", email);
+
   if (!revolutPublicKey) {
     addNotification(
       "No public key is defined in your .env file. Please check and try again",
@@ -19,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  
+
   const { revolutPay } = await RevolutCheckout.payments({
     locale: "en", // Optional, defaults to 'auto'
     mode: "sandbox", // Optional, defaults to 'prod'
@@ -26,8 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const paymentOptions = {
-    currency: staticProduct.currency,
-    totalAmount: staticProduct.amount,
+    currency: CURRENCY,
+    totalAmount: AMOUNT,
     savePaymentMethodForMerchant: true,
     customer: {email: email},
 
@@ -38,20 +58,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
 
     createOrder: async () => {
-      const response = await fetch("/paymentProvider/api/newOrder", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: staticProduct.amount,
-          currency: staticProduct.currency,
-          name: staticProduct.name, 
-          email: email
-        }),
-      });
-
-      const order = await response.json();
-      console.log("Order created", order);
-
+        const response = await fetch(`${FETCH_URL}/api/newOrder`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: AMOUNT,
+            currency: CURRENCY,
+            name: NAME || 'name', 
+            email: email
+          }),
+        });
+        console.log(response)
+        const order = await response.json();
+        console.log("Order created", order);
 
       return { publicId: order.revolutPublicOrderId };
     },

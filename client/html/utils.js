@@ -40,11 +40,11 @@ export const addModalNotification = (title, notification) => {
   popupContent.innerHTML = `<h2>${title}</h2><span>${notification}</span>`;
 };
 
-export const staticProduct = {
-  currency: "EUR",
-  amount: 500,
-  name: "Robo Subscription",
-};
+// export const staticProduct = {
+//   currency: "EUR",
+//   amount: 500,
+//   name: "Robo Subscription",
+// };
 
 const categoryElements = document.querySelectorAll(".sidebar .category");
 

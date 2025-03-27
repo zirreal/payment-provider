@@ -2,7 +2,7 @@ import express from "express";
 import prsRouter from "./src/routes/prs.js";
 import APIRouter from "./src/routes/api.js";
 import GeneralRouter from "./src/routes/generalRoutes.js";
-
+import cors from 'cors';
 import path from "path";
 import ejs from "ejs";
 import dotenv from "dotenv";
@@ -17,6 +17,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({
     path: "./.env",
   });
+
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); 
+      return callback(null, true); 
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, 
+  }))
+
+    app.use((req, res, next) => {
+        console.log(`Incoming request: ${req.method} ${req.url}`);
+        console.log('Headers:', req.headers);
+        next();
+    });
+  
+  app.options('*', cors());
   
 app.use(
 bodyParser.json({

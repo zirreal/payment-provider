@@ -5,7 +5,11 @@
     "type": "module",
     "main": "app.js",
     "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
         "start": "node app.js",
+        "dev:full": "concurrently \"npx tsc\" \"vite --host\" \"npx tsc\" \"node app.js\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -20,12 +24,15 @@
         "ejs": "^3.1.10",
         "express": "^4.21.2",
         "fastq": "^1.17.1",
+        "install": "^0.13.0",
         "jsonwebtoken": "^9.0.2",
-        "node-fetch": "^3.3.2"
+        "node-fetch": "^3.3.2",
+        "npm": "^11.2.0"
     },
     "devDependencies": {
         "@types/jsonwebtoken": "^9.0.9",
         "@types/node": "^22.13.10",
-        "typescript": "^5.8.2"
+        "typescript": "^5.8.2",
+        "vite": "^6.2.3"
     }
 }

@@ -2,3 +2,4 @@
 node_modules
 src/**/*.js
 app.js
+.DS_Store
